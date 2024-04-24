@@ -13,7 +13,6 @@ const getRandomArrayElement = (elements) =>
 const isEscapeKey = (evt) => evt.key === "Escape";
 
 //Генерация массива из 10 объектов
-let data = [];
 const getRandomPhotos = () => {
   const randomPhotos = [];
   for (let i = 0; i < getRandomInteger(1, PHOTOS.length); i++) {
@@ -37,7 +36,8 @@ const getAvatarNumber = () => {
     return num;
   }
 };
-const renderData = function () {
+const generateData = function () {
+  const data = [];
   for (let i = 0; i < 10; i++) {
     const lat = getRandomInteger(35.65, 35.7);
     const lng = getRandomInteger(139.7, 139.8);
@@ -48,12 +48,12 @@ const renderData = function () {
       offer: {
         title: getRandomArrayElement(TITLE),
         address: `${lat},${lng}`,
-        price: getRandomInteger(1, 10000000),
+        price: getRandomInteger(1, 10000),
         type: getRandomArrayElement(TYPE),
         rooms: getRandomInteger(1, 10),
-        quests: getRandomInteger(1, 5),
-        checkin: getRandomArrayElement("12:00", "13:00", "14:00"),
-        checkout: getRandomArrayElement("12:00", "13:00", "14:00"),
+        guests: getRandomInteger(1, 5),
+        checkin: getRandomArrayElement(["12:00", "13:00", "14:00"]),
+        checkout: getRandomArrayElement(["12:00", "13:00", "14:00"]),
         features: getRandomFeatures(),
         description: getRandomArrayElement(DESCRIPTION),
         photos: getRandomPhotos(),
@@ -65,7 +65,7 @@ const renderData = function () {
     };
     data.push(objStructure);
   }
-  console.log(data);
+  return data;
 };
 
-export { getRandomInteger, getRandomArrayElement, isEscapeKey, renderData };
+export { getRandomInteger, getRandomArrayElement, isEscapeKey, generateData };
