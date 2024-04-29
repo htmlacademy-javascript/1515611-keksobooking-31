@@ -1,4 +1,4 @@
-import { TITLE, TYPE, DESCRIPTION, FEATURES, PHOTOS } from "./constants.js";
+import { TITLE, TYPE, DESCRIPTION, FEATURES, PHOTOS } from './constants.js';
 
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -10,7 +10,7 @@ const getRandomInteger = (a, b) => {
 const getRandomArrayElement = (elements) =>
   elements[getRandomInteger(0, elements.length - 1)];
 
-const isEscapeKey = (evt) => evt.key === "Escape";
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
 //Генерация массива из 10 объектов
 const getRandomPhotos = () => {
@@ -32,7 +32,7 @@ const getRandomFeatures = () => {
 const getAvatarNumber = () => {
   let num = getRandomInteger(0, 10);
   if (num < 10) {
-    num = "0" + num;
+    num = `0${ num}`;
     return num;
   }
 };
@@ -41,7 +41,7 @@ const generateData = function () {
   for (let i = 0; i < 10; i++) {
     const lat = getRandomInteger(35.65, 35.7);
     const lng = getRandomInteger(139.7, 139.8);
-    let objStructure = {
+    const objStructure = {
       author: {
         avatar: `img/avatars/user${getAvatarNumber()}.png`,
       },
@@ -52,8 +52,8 @@ const generateData = function () {
         type: getRandomArrayElement(TYPE),
         rooms: getRandomInteger(1, 10),
         guests: getRandomInteger(1, 5),
-        checkin: getRandomArrayElement(["12:00", "13:00", "14:00"]),
-        checkout: getRandomArrayElement(["12:00", "13:00", "14:00"]),
+        checkin: getRandomArrayElement(['12:00', '13:00', '14:00']),
+        checkout: getRandomArrayElement(['12:00', '13:00', '14:00']),
         features: getRandomFeatures(),
         description: getRandomArrayElement(DESCRIPTION),
         photos: getRandomPhotos(),
