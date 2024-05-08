@@ -1,5 +1,6 @@
 import { TITLE, TYPE, DESCRIPTION, FEATURES, PHOTOS } from './constants.js';
-
+const minNumber = 0;
+const maxNumber = 10;
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -30,27 +31,33 @@ const getRandomFeatures = () => {
 };
 
 const getAvatarNumber = () => {
-  let num = getRandomInteger(0, 10);
-  if (num < 10) {
-    num = `0${ num}`;
+  let num = getRandomInteger(minNumber, maxNumber);
+  if (num < maxNumber) {
+    num = `0${num}`;
     return num;
   }
 };
 const generateData = function () {
+  const TokyoLatMin = 35.454216;
+  const TokyoLatMax = 35.914216;
+
+  const TokyoLngMin = 139.333615;
+  const TokyoLngMax = 139.853615;
+
   const data = [];
-  for (let i = 0; i < 10; i++) {
-    const lat = getRandomInteger(35.65, 35.7);
-    const lng = getRandomInteger(139.7, 139.8);
+  for (let i = minNumber; i < maxNumber; i++) {
+    const lat = Math.random() * (TokyoLatMax - TokyoLatMin) + TokyoLatMin;
+    const lng = Math.random() * (TokyoLngMax - TokyoLngMin) + TokyoLngMin;
     const objStructure = {
       author: {
         avatar: `img/avatars/user${getAvatarNumber()}.png`,
       },
       offer: {
         title: getRandomArrayElement(TITLE),
-        address: `${lat},${lng}`,
+        address: `${lat.toFixed(5)},${lng.toFixed(5)}`,
         price: getRandomInteger(1, 10000),
         type: getRandomArrayElement(TYPE),
-        rooms: getRandomInteger(1, 10),
+        rooms: getRandomInteger(minNumber, maxNumber),
         guests: getRandomInteger(1, 5),
         checkin: getRandomArrayElement(['12:00', '13:00', '14:00']),
         checkout: getRandomArrayElement(['12:00', '13:00', '14:00']),

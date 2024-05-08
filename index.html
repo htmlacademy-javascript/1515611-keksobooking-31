@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="./vendor/leaflet/leaflet.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>Кексобукинг</title>
 </head>
@@ -101,7 +102,7 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес (координаты)</label>
-          <input id="address" name="address" type="text" value="1" required readonly>
+          <input id="address" name="address" type="text" value="LatLng(35.684216, 139.753615)" required readonly>
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -249,6 +250,7 @@
     </div>
   </template>
   <script src="./vendor/pristine/pristine.min.js"></script>
+  <script src="./vendor/leaflet/leaflet.js"></script>
   <script src="./js/main.js" type="module"></script>
 </body>
 

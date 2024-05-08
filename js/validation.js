@@ -5,8 +5,17 @@ const adFormInitializeValidation = (form) => {
   const adFormRoomNumber = document.querySelector('#room_number');
   const adFormRoomCapacity = document.querySelector('#capacity');
   const adFormRoomType = document.querySelector('#type');
-  const adFormCheckIn = document.querySelector('#timein');
-  const adFormCheckOut = document.querySelector('#timeout');
+  const adFormTimeIn = document.querySelector('#timein');
+  const adFormTimeOut = document.querySelector('#timeout');
+
+  const minTitleLength = 30;
+  const maxTitleLength = 100;
+  const maxPrice = 100000;
+  const minPriceBungalow = 0;
+  const minPriceFlat = 1000;
+  const minPriceHotel = 3000;
+  const minPriceHouse = 5000;
+  const minPricePalace = 10000;
 
   pristine = new Pristine(form, {
     classTo: 'ad-form__element',
@@ -14,10 +23,18 @@ const adFormInitializeValidation = (form) => {
     errorTextParent: 'ad-form__element',
   });
 
-  const validateAdFormTitle = (value) =>
-    value.length >= 30 && value.length <= 100;
+  adFormTimeIn.addEventListener('change', (evt) => {
+    adFormTimeOut.value = evt.target.value;
+  });
 
-  const validateAdFormPrice = (value) => +value <= 100000;
+  adFormTimeOut.addEventListener('change', (evt) => {
+    adFormTimeIn.value = evt.target.value;
+  });
+
+  const validateAdFormTitle = (value) =>
+    value.length >= minTitleLength && value.length <= maxTitleLength;
+
+  const validateAdFormPrice = (value) => +value <= maxPrice;
 
   const validateAdFormRoomNumber = (value) => {
     switch (value) {
@@ -40,31 +57,49 @@ const adFormInitializeValidation = (form) => {
     }
   };
 
+  adFormRoomNumber.addEventListener('change', (evt) => {
+    switch (evt.target.value) {
+      case '1':
+        adFormRoomCapacity.value = '1';
+        break;
+      case '2':
+        if (
+          adFormRoomCapacity.value !== '1' &&
+          adFormRoomCapacity.value !== '2'
+        ) {
+          adFormRoomCapacity.value = '1';
+        }
+        break;
+      case '3':
+        if (
+          adFormRoomCapacity.value !== '1' &&
+          adFormRoomCapacity.value !== '2' &&
+          adFormRoomCapacity.value !== '3'
+        ) {
+          adFormRoomCapacity.value = '1';
+        }
+        break;
+      case '100':
+        if (adFormRoomCapacity.value !== '0') {
+          adFormRoomCapacity.value = '0';
+        }
+    }
+  });
+
   const validateAdFormRoomType = (value) => {
     switch (value) {
       case 'bungalow':
-        return adFormRoomPrice.value >= 0;
+        return adFormRoomPrice.value >= minPriceBungalow;
       case 'flat':
-        return adFormRoomPrice.value >= 1000;
+        return adFormRoomPrice.value >= minPriceFlat;
       case 'hotel':
-        return adFormRoomPrice.value >= 3000;
+        return adFormRoomPrice.value >= minPriceHotel;
       case 'house':
-        return adFormRoomPrice.value >= 5000;
+        return adFormRoomPrice.value >= minPriceHouse;
       case 'palace':
-        return adFormRoomPrice.value >= 10000;
+        return adFormRoomPrice.value >= minPricePalace;
       default:
         return false;
-    }
-  };
-
-  const validateCheckInOut = (value) => {
-    switch (value) {
-      case '12:00':
-        return adFormCheckOut.value === '12:00';
-      case '13:00':
-        return adFormCheckOut.value === '13:00';
-      case '14:00':
-        return adFormCheckOut.value === '14:00';
     }
   };
 
@@ -86,11 +121,10 @@ const adFormInitializeValidation = (form) => {
     'Выберите подходящую стоимость'
   );
 
-  pristine.addValidator(adFormRoomType, validateAdFormRoomType, '');
   pristine.addValidator(
-    adFormCheckIn,
-    validateCheckInOut,
-    'Время заезда и выезда не совпадают'
+    adFormRoomType,
+    validateAdFormRoomType,
+    'Значение невалидно'
   );
 
   const runValidator = () => pristine.validate();
