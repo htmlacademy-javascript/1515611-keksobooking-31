@@ -18,16 +18,25 @@ const featureTypeLocal = {
 const renderFeatures = (featuresListUl, features) => {
   features.forEach((featureType) => {
     const featureListItem = document.createElement('li');
-    featureListItem.classList.add('popup-feature');
-    featureListItem.classList.add(`popup-feature--${featureType}`);
-    featureListItem.textContent = featureTypeLocal[featureType];
+    featureListItem.classList.add('popup__feature');
+    featureListItem.classList.add(`popup__feature--${featureType}`);
+    featureListItem.innerHTML = featureTypeLocal[featureType];
     featuresListUl.append(featureListItem);
   });
 };
 
-const renderPhoto = (photosElement, photo) => {
-  photosElement.querySelector('img').src = photo;
+const renderPhoto = (photosElement, photos) => {
+  const imgTemplate = photosElement.querySelector('img').cloneNode(true);
+  photosElement.innerHTML = '';
+  if (photos) {
+    photos.forEach((photo) => {
+      const photoImg = imgTemplate.cloneNode(true);
+      photoImg.src = photo;
+      photosElement.appendChild(photoImg);
+    });
+  }
 };
+
 const createCustomPopup = (data) => {
   const balloonTemplate = document
     .querySelector('#card')
@@ -58,8 +67,10 @@ const createCustomPopup = (data) => {
     descriptionElement.classList.add('visually-hidden');
   }
 
-  renderPhoto(photosElement, offer.photos[0]);
-  renderFeatures(featuresList, offer.features);
+  renderPhoto(photosElement, offer.photos);
+  if (offer.features) {
+    renderFeatures(featuresList, offer.features);
+  }
   popupElement.querySelector('.popup__title').textContent = offer.title;
   popupElement.querySelector('.popup__text--address').textContent =
     offer.address;
@@ -68,7 +79,7 @@ const createCustomPopup = (data) => {
   ).textContent = `${offer.price}₽/ночь`;
   popupElement.querySelector('.popup__type').textContent =
     offerTypeLocal[offer.type];
-  popupElement.querySelector('.popup__avatar').textContent = author.avatar;
+  popupElement.querySelector('.popup__avatar').src = author.avatar;
 
   return popupElement;
 };

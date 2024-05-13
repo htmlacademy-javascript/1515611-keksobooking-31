@@ -6,13 +6,21 @@ import {
   deactivateFilterForm,
 } from './form.js';
 import { loadMap } from './map.js';
+import { fetchBooks } from './api';
 
 const data = generateData();
 
 deactivateAdForm();
 deactivateFilterForm();
 
-loadMap(() => {
-  activateAdForm();
-  activateFilterForm();
-});
+fetchBooks(
+  (data) => {
+    loadMap(data, () => {
+      activateAdForm();
+      activateFilterForm();
+    });
+  },
+  (err) => {
+    console.error(err);
+  }
+);

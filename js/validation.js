@@ -1,21 +1,23 @@
+import {
+  minTitleLength,
+  maxTitleLength,
+  maxPrice,
+  minPriceBungalow,
+  minPriceFlat,
+  minPriceHotel,
+  minPriceHouse,
+  minPricePalace,
+} from './constants';
+
 let pristine;
 const adFormInitializeValidation = (form) => {
-  const adFormTitle = document.querySelector('#title');
-  const adFormRoomPrice = document.querySelector('#price');
-  const adFormRoomNumber = document.querySelector('#room_number');
-  const adFormRoomCapacity = document.querySelector('#capacity');
-  const adFormRoomType = document.querySelector('#type');
-  const adFormTimeIn = document.querySelector('#timein');
-  const adFormTimeOut = document.querySelector('#timeout');
-
-  const minTitleLength = 30;
-  const maxTitleLength = 100;
-  const maxPrice = 100000;
-  const minPriceBungalow = 0;
-  const minPriceFlat = 1000;
-  const minPriceHotel = 3000;
-  const minPriceHouse = 5000;
-  const minPricePalace = 10000;
+  const adFormTitle = form.querySelector('#title');
+  const adFormRoomPrice = form.querySelector('#price');
+  const adFormRoomNumber = form.querySelector('#room_number');
+  const adFormRoomCapacity = form.querySelector('#capacity');
+  const adFormRoomType = form.querySelector('#type');
+  const adFormTimeIn = form.querySelector('#timein');
+  const adFormTimeOut = form.querySelector('#timeout');
 
   pristine = new Pristine(form, {
     classTo: 'ad-form__element',
@@ -30,6 +32,8 @@ const adFormInitializeValidation = (form) => {
   adFormTimeOut.addEventListener('change', (evt) => {
     adFormTimeIn.value = evt.target.value;
   });
+
+  // Slider
 
   const validateAdFormTitle = (value) =>
     value.length >= minTitleLength && value.length <= maxTitleLength;
@@ -118,17 +122,35 @@ const adFormInitializeValidation = (form) => {
   pristine.addValidator(
     adFormRoomNumber,
     validateAdFormRoomNumber,
-    'Выберите подходящую стоимость'
+    'Выберите подходящее количество человек'
   );
 
   pristine.addValidator(
     adFormRoomType,
     validateAdFormRoomType,
-    'Значение невалидно'
+    'Введите подходящую стоимость'
   );
 
+  adFormRoomPrice.addEventListener('change', () => {
+    if (pristine) {
+      pristine.validate();
+    }
+  });
+
+  adFormRoomNumber.addEventListener('change', () => {
+    if (pristine) {
+      pristine.validate();
+    }
+  });
+
+  adFormRoomCapacity.addEventListener('change', () => {
+    if (pristine) {
+      pristine.validate();
+    }
+  });
+
   const runValidator = () => pristine.validate();
-  return runValidator;
+  return { runValidator };
 };
 
 export { adFormInitializeValidation };

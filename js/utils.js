@@ -1,5 +1,5 @@
 import { TITLE, TYPE, DESCRIPTION, FEATURES, PHOTOS } from './constants.js';
-const minNumber = 0;
+const minNumber = 1;
 const maxNumber = 10;
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -13,18 +13,17 @@ const getRandomArrayElement = (elements) =>
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-//Генерация массива из 10 объектов
 const getRandomPhotos = () => {
   const randomPhotos = [];
-  for (let i = 0; i < getRandomInteger(1, PHOTOS.length); i++) {
-    randomPhotos.push(PHOTOS[i]);
+  for (let i = 0; i < getRandomInteger(1, 2); i++) {
+    randomPhotos.push(getRandomArrayElement(PHOTOS));
   }
   return randomPhotos;
 };
 
 const getRandomFeatures = () => {
   const randomFeatures = [];
-  for (let i = 0; i < getRandomInteger(1, FEATURES.length); i++) {
+  for (let i = 1; i < getRandomInteger(1, FEATURES.length); i++) {
     randomFeatures.push(FEATURES[i]);
   }
   return randomFeatures;
@@ -32,10 +31,8 @@ const getRandomFeatures = () => {
 
 const getAvatarNumber = () => {
   let num = getRandomInteger(minNumber, maxNumber);
-  if (num < maxNumber) {
-    num = `0${num}`;
-    return num;
-  }
+  num = String(num).padStart(2, '0');
+  return num;
 };
 const generateData = function () {
   const TokyoLatMin = 35.454216;

@@ -1,10 +1,11 @@
 import { generateData } from './utils.js';
 import { createCustomPopup } from './ads.js';
+
 const adFormAddress = document.querySelector('#address');
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const COPYRIGHT =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-const ZOOM = 10;
+const ZOOM = 12;
 
 const iconConfig = {
   url: './img/pin.svg',
@@ -26,14 +27,7 @@ const TokyoCenter = {
   lng: 139.753615,
 };
 
-const startCoordinate = {
-  lat: 35.684216,
-  lng: 139.753615,
-};
-
-const resetButton = document.querySelector('.ad-form__reset');
-
-function loadMap(mapLoaded) {
+function loadMap(allBookings, mapLoaded) {
   const map = L.map('map-canvas')
     .on('load', () => {
       mapLoaded();
@@ -56,7 +50,7 @@ function loadMap(mapLoaded) {
     iconAnchor: [mainIconConfig.anchorX, mainIconConfig.anchorY],
   });
 
-  generateData().forEach((data) => {
+  allBookings.forEach((data) => {
     const pinMarker = L.marker(
       {
         lat: data.location.lat,
@@ -88,15 +82,11 @@ function loadMap(mapLoaded) {
   );
 
   mainPinMarker.on('moveend', (evt) => {
-    adFormAddress.value = evt.target.getLatLng();
+    const coords = evt.target.getLatLng();
+    adFormAddress.value = `${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`;
   });
 
   mainPinMarker.addTo(map);
-
-  resetButton.addEventListener('click', () => {
-    pinMarker.setLatLng(startCoordinate);
-    map.setView(startCoordinate, ZOOM);
-  });
 }
 
 export { loadMap };
