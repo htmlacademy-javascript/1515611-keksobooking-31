@@ -33,8 +33,6 @@ const adFormInitializeValidation = (form) => {
     adFormTimeIn.value = evt.target.value;
   });
 
-  // Slider
-
   const validateAdFormTitle = (value) =>
     value.length >= minTitleLength && value.length <= maxTitleLength;
 

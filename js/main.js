@@ -8,8 +8,6 @@ import {
 import { loadMap } from './map.js';
 import { fetchBooks } from './api';
 
-const data = generateData();
-
 deactivateAdForm();
 deactivateFilterForm();
 
