@@ -1,4 +1,4 @@
-import { generateData } from './utils.js';
+import { fetchBooks } from './api.js';
 import {
   activateAdForm,
   deactivateAdForm,
@@ -6,7 +6,6 @@ import {
   deactivateFilterForm,
 } from './form.js';
 import { loadMap } from './map.js';
-import { fetchBooks } from './api';
 
 deactivateAdForm();
 deactivateFilterForm();

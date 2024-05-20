@@ -6,6 +6,8 @@ import {
   minPriceHouse,
   minPricePalace,
 } from './constants';
+import { showSuccessPopup, showErrorPopup } from './popup.js';
+import { sendNewBook } from './api.js';
 
 const adForm = document.querySelector('.ad-form');
 const formHeader = adForm.querySelector('.ad-form-header');
@@ -105,7 +107,16 @@ adForm.addEventListener('submit', (evt) => {
 
   const isValid = validator.runValidator();
   if (isValid) {
-    // отправить форму тут
+    const formData = new FormData(adForm);
+    sendNewBook(
+      formData,
+      () => {
+        showSuccessPopup();
+      },
+      (error) => {
+        showErrorPopup();
+      }
+    );
   }
 });
 
