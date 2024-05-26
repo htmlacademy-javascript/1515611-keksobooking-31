@@ -8,7 +8,9 @@ import {
 } from './constants';
 import { showSuccessPopup, showErrorPopup } from './popup.js';
 import { sendNewBook } from './api.js';
+import { closeMapPopup } from './map.js';
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const adForm = document.querySelector('.ad-form');
 const formHeader = adForm.querySelector('.ad-form-header');
 const adElements = adForm.querySelectorAll('.ad-form__element');
@@ -23,6 +25,10 @@ const adFormRoomType = adForm.querySelector('#type');
 const adFormRoomPrice = adForm.querySelector('#price');
 
 const sliderElement = adForm.querySelector('.ad-form__slider');
+const avatarBlockUploadInput = document.querySelector('#avatar');
+const avatarBlock = document.querySelector('.ad-form-header__preview img');
+const apartBlockUpload = document.querySelector('.ad-form__upload');
+const apartBlock = document.querySelector('.ad-form__photo');
 
 adFormRoomPrice.placeholder = minPriceFlat;
 
@@ -98,6 +104,19 @@ sliderElement.noUiSlider.on('slide', () => {
   }
 });
 
+adFormRoomPrice.addEventListener('change', (evt) => {
+  sliderElement.noUiSlider.set(evt.target.value);
+  if (validator) {
+    validator.runValidator();
+  }
+});
+
+function formReset() {
+  apartBlock.innerHTML = '';
+  avatarBlock.src = 'img/muffin-grey.svg';
+  adForm.reset();
+}
+
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
@@ -108,9 +127,11 @@ adForm.addEventListener('submit', (evt) => {
   const isValid = validator.runValidator();
   if (isValid) {
     const formData = new FormData(adForm);
+    closeMapPopup();
     sendNewBook(
       formData,
       () => {
+        formReset();
         showSuccessPopup();
       },
       (error) => {
@@ -123,6 +144,30 @@ adForm.addEventListener('submit', (evt) => {
 resetButton.addEventListener('click', () => {
   sliderElement.noUiSlider.set(0);
 });
+
+const renderAvatarImage = (evt) => {
+  const file = evt.target.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+    avatarBlock.src = URL.createObjectURL(file);
+  }
+};
+avatarBlockUploadInput.addEventListener('change', renderAvatarImage);
+
+const renderApartImage = (evt) => {
+  const file = evt.target.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+    const img = document.createElement('img');
+    img.width = 70;
+    img.height = 70;
+    img.src = URL.createObjectURL(file);
+    apartBlock.appendChild(img);
+  }
+};
+apartBlockUpload.addEventListener('change', renderApartImage);
 
 export {
   activateAdForm,

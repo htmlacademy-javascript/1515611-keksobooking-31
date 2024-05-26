@@ -1,5 +1,5 @@
-import { generateData } from './utils.js';
 import { createCustomPopup } from './ads.js';
+import { prepareFilterBookings } from './mapFilters.js';
 
 const adFormAddress = document.querySelector('#address');
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -27,30 +27,21 @@ const TokyoCenter = {
   lng: 139.753615,
 };
 
-function loadMap(allBookings, mapLoaded) {
-  const map = L.map('map-canvas')
-    .on('load', () => {
-      mapLoaded();
-    })
-    .setView(TokyoCenter, ZOOM);
-
-  L.tileLayer(TILE_LAYER, {
-    attribution: COPYRIGHT,
-  }).addTo(map);
-
-  const pinIcon = L.icon({
-    iconUrl: iconConfig.url,
-    iconSize: [iconConfig.width, iconConfig.height],
-    iconAnchor: [iconConfig.anchorX, iconConfig.anchorY],
+let map;
+let markers = [];
+function renderBookings(bookings) {
+  markers.forEach((marker) => {
+    marker.remove();
   });
+  markers = [];
 
-  const mainPinIcon = L.icon({
-    iconUrl: mainIconConfig.url,
-    iconSize: [mainIconConfig.width, mainIconConfig.height],
-    iconAnchor: [mainIconConfig.anchorX, mainIconConfig.anchorY],
-  });
+  bookings.forEach((data) => {
+    const pinIcon = L.icon({
+      iconUrl: iconConfig.url,
+      iconSize: [iconConfig.width, iconConfig.height],
+      iconAnchor: [iconConfig.anchorX, iconConfig.anchorY],
+    });
 
-  allBookings.forEach((data) => {
     const pinMarker = L.marker(
       {
         lat: data.location.lat,
@@ -68,6 +59,26 @@ function loadMap(allBookings, mapLoaded) {
 
     const popupElement = createCustomPopup(data);
     pinMarker.addTo(map).bindPopup(popupElement);
+
+    markers.push(pinMarker);
+  });
+}
+
+function loadMap(allBookings, mapLoaded) {
+  map = L.map('map-canvas')
+    .on('load', () => {
+      mapLoaded();
+    })
+    .setView(TokyoCenter, ZOOM);
+
+  L.tileLayer(TILE_LAYER, {
+    attribution: COPYRIGHT,
+  }).addTo(map);
+
+  const mainPinIcon = L.icon({
+    iconUrl: mainIconConfig.url,
+    iconSize: [mainIconConfig.width, mainIconConfig.height],
+    iconAnchor: [mainIconConfig.anchorX, mainIconConfig.anchorY],
   });
 
   const mainPinMarker = L.marker(
@@ -87,6 +98,15 @@ function loadMap(allBookings, mapLoaded) {
   });
 
   mainPinMarker.addTo(map);
+
+  renderBookings(allBookings);
+  prepareFilterBookings(allBookings, renderBookings);
 }
 
-export { loadMap };
+function closeMapPopup() {
+  if (map) {
+    map.closePopup();
+  }
+}
+
+export { loadMap, closeMapPopup };
