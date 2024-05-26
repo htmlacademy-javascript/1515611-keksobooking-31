@@ -1,3 +1,13 @@
+const minTitleLength = 30;
+const maxTitleLength = 100;
+const maxPrice = 100000;
+const minPriceBungalow = 0;
+const minPriceFlat = 1000;
+const minPriceHotel = 3000;
+const minPriceHouse = 5000;
+const minPricePalace = 10000;
+const pricePerNight = 100000;
+
 const TITLE = [
   'Замечательная квартира в центре Токио',
   'Если важен покой и уют',
@@ -14,7 +24,7 @@ const TITLE = [
 const TYPE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
 const FEATURES = [
-  'wifi',
+  'map',
   'dishwasher',
   'parking',
   'washer',
@@ -35,4 +45,20 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
-export { TITLE, TYPE, FEATURES, DESCRIPTION, PHOTOS };
+
+export {
+  TITLE,
+  TYPE,
+  FEATURES,
+  DESCRIPTION,
+  PHOTOS,
+  minTitleLength,
+  maxTitleLength,
+  maxPrice,
+  minPriceBungalow,
+  minPriceFlat,
+  minPriceHotel,
+  minPriceHouse,
+  minPricePalace,
+  pricePerNight,
+};
