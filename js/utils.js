@@ -76,7 +76,6 @@ export {
   getRandomInteger,
   getRandomArrayElement,
   isEscapeKey,
-  generateData,
   getRandomElementsFromArray,
   throttle,
 };
