@@ -6,13 +6,20 @@ const successPopupTemplate = document
 
 const showSuccessPopup = () => {
   const successPopupElement = successPopupTemplate.cloneNode(true);
-  const closePopup = (evt) => {
+  const closePopupEsc = (evt) => {
     if (isEscapeKey(evt)) {
       successPopupElement.remove();
-      document.removeEventListener('keydown', closePopup);
+      document.removeEventListener('keydown', closePopupEsc);
+      document.removeEventListener('click', closePopupClick);
     }
   };
-  document.addEventListener('keydown', closePopup);
+  const closePopupClick = (evt) => {
+    successPopupElement.remove();
+    document.removeEventListener('keydown', closePopupEsc);
+    document.removeEventListener('click', closePopupClick);
+  };
+  document.addEventListener('keydown', closePopupEsc);
+  document.addEventListener('click', closePopupClick);
   document.body.append(successPopupElement);
 };
 

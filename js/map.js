@@ -29,7 +29,7 @@ const TokyoCenter = {
 
 let map;
 let markers = [];
-function renderBookings(bookings) {
+const renderBookings = (bookings) => {
   markers.forEach((marker) => {
     marker.remove();
   });
@@ -62,9 +62,10 @@ function renderBookings(bookings) {
 
     markers.push(pinMarker);
   });
-}
+};
 
-function loadMap(allBookings, mapLoaded) {
+let mainPinMarker;
+const loadMap = (allBookings, mapLoaded) => {
   map = L.map('map-canvas')
     .on('load', () => {
       mapLoaded();
@@ -81,7 +82,7 @@ function loadMap(allBookings, mapLoaded) {
     iconAnchor: [mainIconConfig.anchorX, mainIconConfig.anchorY],
   });
 
-  const mainPinMarker = L.marker(
+  mainPinMarker = L.marker(
     {
       lat: 35.684216,
       lng: 139.753615,
@@ -101,7 +102,7 @@ function loadMap(allBookings, mapLoaded) {
 
   renderBookings(allBookings);
   prepareFilterBookings(allBookings, renderBookings);
-}
+};
 
 function closeMapPopup() {
   if (map) {
@@ -109,4 +110,8 @@ function closeMapPopup() {
   }
 }
 
-export { loadMap, closeMapPopup };
+const resetMainMarker = () => {
+  mainPinMarker.setLatLng(TokyoCenter);
+};
+
+export { loadMap, closeMapPopup, resetMainMarker };
