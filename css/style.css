@@ -600,7 +600,7 @@ fieldset {
 .ad-form__photo {
   margin-right: 10px;
   margin-bottom: 10px;
-
+  object-fit: contain;
   width: 70px;
   height: 70px;
 
@@ -648,6 +648,10 @@ fieldset {
   background-color: #ff6d51;
 }
 
+.ad-form-header__preview img {
+  object-fit: contain;
+
+}
 .ad-form__reset {
   margin: 0;
   padding: 0;

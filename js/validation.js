@@ -16,21 +16,11 @@ const adFormInitializeValidation = (form) => {
   const adFormRoomNumber = form.querySelector('#room_number');
   const adFormRoomCapacity = form.querySelector('#capacity');
   const adFormRoomType = form.querySelector('#type');
-  const adFormTimeIn = form.querySelector('#timein');
-  const adFormTimeOut = form.querySelector('#timeout');
 
   pristine = new Pristine(form, {
     classTo: 'ad-form__element',
     errorClass: 'ad-form__element--invalid',
     errorTextParent: 'ad-form__element',
-  });
-
-  adFormTimeIn.addEventListener('change', (evt) => {
-    adFormTimeOut.value = evt.target.value;
-  });
-
-  adFormTimeOut.addEventListener('change', (evt) => {
-    adFormTimeIn.value = evt.target.value;
   });
 
   const validateAdFormTitle = (value) =>

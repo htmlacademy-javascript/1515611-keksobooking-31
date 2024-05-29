@@ -13,11 +13,10 @@ const filterWasher = document.querySelector('#filter-washer');
 const filterParking = document.querySelector('#filter-parking');
 const filterElevator = document.querySelector('#filter-elevator');
 
-function prepareFilterBookings(allBookings, renderBookings) {
-  function filterBookings() {
+const prepareFilterBookings = (allBookings, renderBookings) => {
+  const filterBookings = () => {
     let filteredBookings = allBookings
       .filter((book) =>
-        // если в селекте НЕ "any", то проверям что апарт объявления тот же, что и в селекте, иначе закидываем объявление в результирующий массив
         housingType.value !== 'any'
           ? book.offer.type === housingType.value
           : true
@@ -31,7 +30,7 @@ function prepareFilterBookings(allBookings, renderBookings) {
           case 'high':
             return book.offer.price > 50000;
           default:
-            return true; // объявление уедет в результирующий массив, то же самое что не равно "any"
+            return true;
         }
       })
       .filter((book) => {
@@ -88,7 +87,7 @@ function prepareFilterBookings(allBookings, renderBookings) {
     }
 
     renderBookings(filteredBookings);
-  }
+  };
 
   const throttleFilters = throttle(filterBookings, 500);
 
@@ -107,6 +106,6 @@ function prepareFilterBookings(allBookings, renderBookings) {
   housingFeatures.addEventListener('change', () => {
     throttleFilters();
   });
-}
+};
 
 export { prepareFilterBookings };
