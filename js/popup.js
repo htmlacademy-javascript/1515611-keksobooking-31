@@ -6,18 +6,21 @@ const successPopupTemplate = document
 
 const showSuccessPopup = () => {
   const successPopupElement = successPopupTemplate.cloneNode(true);
-  function closePopupEsc(evt) {
+  let closePopupEsc;
+  let closePopupClick;
+
+  closePopupEsc = (evt) => {
     if (isEscapeKey(evt)) {
       successPopupElement.remove();
       document.removeEventListener('keydown', closePopupEsc);
       document.removeEventListener('click', closePopupClick);
     }
-  }
-  function closePopupClick() {
+  };
+  closePopupClick = () => {
     successPopupElement.remove();
     document.removeEventListener('keydown', closePopupEsc);
     document.removeEventListener('click', closePopupClick);
-  }
+  };
   document.addEventListener('keydown', closePopupEsc);
   document.addEventListener('click', closePopupClick);
   document.body.append(successPopupElement);
@@ -29,18 +32,18 @@ const errorPopupTemplate = document
 
 const showErrorPopup = () => {
   const errorPopupElement = errorPopupTemplate.cloneNode(true);
-  function closePopupEsc(evt) {
+  const closePopupEsc = (evt) => {
     if (isEscapeKey(evt)) {
       errorPopupElement.remove();
       document.removeEventListener('keydown', closePopupEsc);
       document.removeEventListener('click', closeButtonClick);
     }
-  }
-  function closeButtonClick() {
+  };
+  const closeButtonClick = () => {
     errorPopupElement.remove();
     document.removeEventListener('keydown', closePopupEsc);
     document.removeEventListener('click', closeButtonClick);
-  }
+  };
 
   errorPopupElement
     .querySelector('.error__button')
