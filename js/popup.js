@@ -6,24 +6,20 @@ const successPopupTemplate = document
 
 const showSuccessPopup = () => {
   const successPopupElement = successPopupTemplate.cloneNode(true);
-  let closePopupEsc;
-  let closePopupClick;
-
-  closePopupEsc = (evt) => {
+  const closePopupEsc = (evt) => {
     if (isEscapeKey(evt)) {
       successPopupElement.remove();
       document.removeEventListener('keydown', closePopupEsc);
-      document.removeEventListener('click', closePopupClick);
     }
   };
-  closePopupClick = () => {
+  const closePopupClick = () => {
     successPopupElement.remove();
     document.removeEventListener('keydown', closePopupEsc);
-    document.removeEventListener('click', closePopupClick);
   };
   document.addEventListener('keydown', closePopupEsc);
   document.addEventListener('click', closePopupClick);
   document.body.append(successPopupElement);
+  successPopupElement.addEventListener('click', closePopupClick);
 };
 
 const errorPopupTemplate = document
@@ -36,22 +32,20 @@ const showErrorPopup = () => {
     if (isEscapeKey(evt)) {
       errorPopupElement.remove();
       document.removeEventListener('keydown', closePopupEsc);
-      document.removeEventListener('click', closeButtonClick);
     }
   };
-  const closeButtonClick = () => {
+  const closePopupClick = () => {
     errorPopupElement.remove();
     document.removeEventListener('keydown', closePopupEsc);
-    document.removeEventListener('click', closeButtonClick);
   };
 
   errorPopupElement
     .querySelector('.error__button')
-    .addEventListener('click', closeButtonClick);
-  document.addEventListener('click', closeButtonClick);
+    .addEventListener('click', closePopupClick);
+  document.addEventListener('click', closePopupClick);
   document.addEventListener('keydown', closePopupEsc);
-
   document.body.append(errorPopupElement);
+  successPopupElement.addEventListener('click', closePopupClick);
 };
 
 export { showSuccessPopup, showErrorPopup };
