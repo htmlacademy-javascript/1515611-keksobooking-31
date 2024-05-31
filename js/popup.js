@@ -45,7 +45,7 @@ const showErrorPopup = () => {
   document.addEventListener('click', closePopupClick);
   document.addEventListener('keydown', closePopupEsc);
   document.body.append(errorPopupElement);
-  successPopupElement.addEventListener('click', closePopupClick);
+  errorPopupElement.addEventListener('click', closePopupClick);
 };
 
 export { showSuccessPopup, showErrorPopup };
