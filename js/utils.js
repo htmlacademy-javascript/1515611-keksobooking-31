@@ -15,7 +15,7 @@ const throttle = (func, ms) => {
     savedArgs,
     savedThis;
 
-  function wrapper() {
+  const wrapper = () => {
     if (isThrottled) {
       // (2)
       savedArgs = arguments;
@@ -34,7 +34,7 @@ const throttle = (func, ms) => {
         savedArgs = savedThis = null;
       }
     }, ms);
-  }
+  };
 
   return wrapper;
 };
