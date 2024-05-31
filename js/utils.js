@@ -10,33 +10,16 @@ const getRandomArrayElement = (elements) =>
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const throttle = (func, ms) => {
-  let isThrottled = false,
-    savedArgs,
-    savedThis;
-
-  const wrapper = () => {
-    if (isThrottled) {
-      // (2)
-      savedArgs = arguments;
-      savedThis = this;
-      return;
+const throttle = (func, delay) => {
+  let timeoutId;
+  return (...args) => {
+    if (!timeoutId) {
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+        timeoutId = null;
+      }, delay);
     }
-
-    func.apply(this, arguments); // (1)
-
-    isThrottled = true;
-
-    setTimeout(function () {
-      isThrottled = false; // (3)
-      if (savedArgs) {
-        wrapper.apply(savedThis, savedArgs);
-        savedArgs = savedThis = null;
-      }
-    }, ms);
   };
-
-  return wrapper;
 };
 
 export { getRandomInteger, getRandomArrayElement, isEscapeKey, throttle };
