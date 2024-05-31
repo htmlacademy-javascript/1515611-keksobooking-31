@@ -33,16 +33,19 @@ const showErrorPopup = () => {
     if (isEscapeKey(evt)) {
       errorPopupElement.remove();
       document.removeEventListener('keydown', closePopupEsc);
+      document.removeEventListener('click', closeButtonClick);
     }
   };
   const closeButtonClick = () => {
     errorPopupElement.remove();
+    document.removeEventListener('keydown', closePopupEsc);
     document.removeEventListener('click', closeButtonClick);
   };
 
   errorPopupElement
     .querySelector('.error__button')
     .addEventListener('click', closeButtonClick);
+  document.addEventListener('click', closeButtonClick);
   document.addEventListener('keydown', closePopupEsc);
 
   document.body.append(errorPopupElement);
