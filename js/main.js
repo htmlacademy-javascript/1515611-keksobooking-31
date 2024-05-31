@@ -18,6 +18,6 @@ fetchBooks(
     });
   },
   (err) => {
-    console.error(err);
+    throw err;
   }
 );

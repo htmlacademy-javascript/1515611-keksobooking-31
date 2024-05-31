@@ -160,7 +160,7 @@ adForm.addEventListener('submit', (evt) => {
         formReset();
         showSuccessPopup();
       },
-      (error) => {
+      () => {
         showErrorPopup();
       }
     );
