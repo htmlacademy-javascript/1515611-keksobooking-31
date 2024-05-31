@@ -10,7 +10,7 @@ const getRandomArrayElement = (elements) =>
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-function throttle(func, ms) {
+const throttle = (func, ms) => {
   let isThrottled = false,
     savedArgs,
     savedThis;
@@ -37,6 +37,6 @@ function throttle(func, ms) {
   }
 
   return wrapper;
-}
+};
 
 export { getRandomInteger, getRandomArrayElement, isEscapeKey, throttle };

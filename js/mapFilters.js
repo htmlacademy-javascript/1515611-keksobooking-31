@@ -33,11 +33,11 @@ const prepareFilterBookings = (allBookings, renderBookings) => {
             return true;
         }
       })
-      .filter((book) => {
-        return housingRooms.value !== 'any'
+      .filter((book) =>
+        housingRooms.value !== 'any'
           ? String(book.offer.rooms) === housingRooms.value
-          : true;
-      })
+          : true
+      )
       .filter((book) =>
         housingGuests.value !== 'any'
           ? String(book.offer.guests) === housingGuests.value
