@@ -52,7 +52,6 @@ const prepareFilterBookings = (allBookings, renderBookings) => {
       filterDishwasher.checked ||
       filterElevator.checked
     ) {
-      console.log(filteredBookings);
       filteredBookings = filteredBookings
         .filter((book) =>
           filterWifi.checked && book.offer.features
@@ -86,7 +85,7 @@ const prepareFilterBookings = (allBookings, renderBookings) => {
         );
     }
 
-    renderBookings(filteredBookings);
+    renderBookings(filteredBookings.slice(0, 10));
   };
 
   const throttleFilters = throttle(filterBookings, 500);

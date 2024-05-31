@@ -1,12 +1,10 @@
-import { getRandomElementsFromArray } from './utils.js';
-
 const fetchGetData = 'https://31.javascript.htmlacademy.pro/keksobooking/data';
 const fetchPostData = 'https://31.javascript.htmlacademy.pro/keksobooking';
 
 const fetchBooks = (onSuccess, onError) => {
   fetch(fetchGetData)
     .then((response) => response.json())
-    .then((data) => onSuccess(getRandomElementsFromArray(data, 10)))
+    .then((data) => onSuccess(data))
     .catch((err) => onError(err));
 };
 

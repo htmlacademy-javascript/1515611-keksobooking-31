@@ -53,10 +53,6 @@ const renderBookings = (bookings) => {
       }
     );
 
-    pinMarker.on('moveend', (evt) => {
-      console.log(evt.target.getLatLng());
-    });
-
     const popupElement = createCustomPopup(data);
     pinMarker.addTo(map).bindPopup(popupElement);
 
@@ -100,7 +96,7 @@ const loadMap = (allBookings, mapLoaded) => {
 
   mainPinMarker.addTo(map);
 
-  renderBookings(allBookings);
+  renderBookings(allBookings.slice(0, 10));
   prepareFilterBookings(allBookings, renderBookings);
 };
 

@@ -121,7 +121,7 @@ sliderElement.noUiSlider.on('slide', () => {
 });
 
 adFormRoomPrice.addEventListener('change', (evt) => {
-  sliderElement.noUiSlider.set(evt.target.value);
+  sliderElement.noUiSlider.set(evt.target.value || 0);
   if (validator) {
     validator.runValidator();
   }
@@ -196,10 +196,13 @@ const renderApartImage = (evt) => {
     img.height = 70;
     img.src = URL.createObjectURL(file);
     apartBlock.appendChild(img);
-    adForm.reset();
   }
 };
 apartBlockUpload.addEventListener('change', renderApartImage);
+
+adForm.addEventListener('reset', () => {
+  adFormRoomPrice.placeholder = minPriceFlat;
+});
 
 export {
   activateAdForm,
