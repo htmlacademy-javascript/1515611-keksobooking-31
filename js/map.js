@@ -27,6 +27,8 @@ const TokyoCenter = {
   lng: 139.753615,
 };
 
+const maxShownBookings = 10;
+
 let map;
 let markers = [];
 const renderBookings = (bookings) => {
@@ -96,7 +98,7 @@ const loadMap = (allBookings, mapLoaded) => {
 
   mainPinMarker.addTo(map);
 
-  renderBookings(allBookings.slice(0, 10));
+  renderBookings(allBookings.slice(0, maxShownBookings));
   prepareFilterBookings(allBookings, renderBookings);
 };
 

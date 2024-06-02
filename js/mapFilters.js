@@ -5,6 +5,7 @@ const housingPrice = document.querySelector('#housing-price');
 const housingRooms = document.querySelector('#housing-rooms');
 const housingGuests = document.querySelector('#housing-guests');
 const housingFeatures = document.querySelector('#housing-features');
+const filtersForm = document.querySelector('.map__filters');
 
 const filterWifi = document.querySelector('#filter-wifi');
 const filterDishwasher = document.querySelector('#filter-dishwasher');
@@ -12,7 +13,12 @@ const filterConditioner = document.querySelector('#filter-conditioner');
 const filterWasher = document.querySelector('#filter-washer');
 const filterParking = document.querySelector('#filter-parking');
 const filterElevator = document.querySelector('#filter-elevator');
+const maxShownBookings = 10;
+const throttleTime = 500;
+const lowHousingPrice = 10000;
+const maxHousingPrice = 50000;
 
+let throttleFilters;
 const prepareFilterBookings = (allBookings, renderBookings) => {
   const filterBookings = () => {
     let filteredBookings = allBookings
@@ -24,11 +30,14 @@ const prepareFilterBookings = (allBookings, renderBookings) => {
       .filter((book) => {
         switch (housingPrice.value) {
           case 'low':
-            return book.offer.price < 10000;
+            return book.offer.price < lowHousingPrice;
           case 'middle':
-            return book.offer.price >= 10000 && book.offer.price <= 50000;
+            return (
+              book.offer.price >= lowHousingPrice &&
+              book.offer.price <= maxHousingPrice
+            );
           case 'high':
-            return book.offer.price > 50000;
+            return book.offer.price > maxHousingPrice;
           default:
             return true;
         }
@@ -85,10 +94,10 @@ const prepareFilterBookings = (allBookings, renderBookings) => {
         );
     }
 
-    renderBookings(filteredBookings.slice(0, 10));
+    renderBookings(filteredBookings.slice(0, maxShownBookings));
   };
 
-  const throttleFilters = throttle(filterBookings, 500);
+  throttleFilters = throttle(filterBookings, throttleTime);
 
   housingType.addEventListener('change', () => {
     throttleFilters();
@@ -107,4 +116,11 @@ const prepareFilterBookings = (allBookings, renderBookings) => {
   });
 };
 
-export { prepareFilterBookings };
+const resetFilters = () => {
+  filtersForm.reset();
+  if (throttleFilters) {
+    throttleFilters();
+  }
+};
+
+export { prepareFilterBookings, resetFilters };
