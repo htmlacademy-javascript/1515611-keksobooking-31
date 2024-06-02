@@ -9,6 +9,7 @@ import {
 import { showSuccessPopup, showErrorPopup } from './popup.js';
 import { sendNewBook } from './api.js';
 import { closeMapPopup, resetMainMarker } from './map.js';
+import { resetFilters } from './mapFilters.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const adForm = document.querySelector('.ad-form');
@@ -141,6 +142,7 @@ const formReset = () => {
   closeMapPopup();
   resetMainMarker();
   resetImgPreviews();
+  resetFilters();
 };
 
 adForm.addEventListener('submit', (evt) => {
